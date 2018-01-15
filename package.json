@@ -1,0 +1,25 @@
+{
+  "name": "graphql-medellinjs",
+  "version": "1.0.0",
+  "description": "configuration graphql with express and nodejs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IvanVilla1585/graphql-medellinjs.git"
+  },
+  "keywords": [
+    "graphql",
+    "nodejs",
+    "express"
+  ],
+  "author": "Ivan Dario Villa Ramirez <trezeguet55@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/IvanVilla1585/graphql-medellinjs/issues"
+  },
+  "homepage": "https://github.com/IvanVilla1585/graphql-medellinjs#readme",
+  "dependencies": {}
+}
