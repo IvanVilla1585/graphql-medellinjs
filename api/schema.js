@@ -4,8 +4,8 @@ const {makeExecutableSchema} = require('graphql-tools');
 // import schemas and resolvers
 const teacherSchema = require('./teacher/schema');
 const teacherResolver = require('./teacher/resolver');
-const cursesSchema = require('./curses/schema');
-const cursesResolver = require('./curses/resolver');
+const cursesSchema = require('./courses/schema');
+const cursesResolver = require('./courses/resolver');
 
 const typeDefs = [
   ...teacherSchema,
