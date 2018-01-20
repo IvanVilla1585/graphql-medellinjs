@@ -6,14 +6,17 @@ const teacherSchema = require('./teacher/schema');
 const teacherResolver = require('./teacher/resolver');
 const cursesSchema = require('./courses/schema');
 const cursesResolver = require('./courses/resolver');
+const studentSchema = require('./student/schema');
+const studentResolver = require('./student/resolver');
 
 const typeDefs = [
   ...teacherSchema,
-  ...cursesSchema
+  ...cursesSchema,
+  ...studentSchema
 ];
 
 const resolvers = merge(
-    teacherResolver, cursesResolver
+    teacherResolver, cursesResolver, studentResolver
 );
 
 
