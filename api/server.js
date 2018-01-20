@@ -2,13 +2,18 @@
 
 const express = require('express');
 const bodyParse = require('body-parser');
+const mongoose = require('mongoose');
+const Promise = require('bluebird');
 const {graphqlExpress, graphiqlExpress} = require('apollo-server-express');
 
 const schema = require('./schema');
-const data = require('./data/data');
-const curses = require('./data/curses');
+const {CourseStorage} = require('./storage/course');
+const {UserStorage} = require('./storage/user');
+
 const app = express();
 const port = 8000;
+mongoose.Promise = Promise;
+const conn = mongoose.createConnection('mongodb://localhost:27017/medellinjs');
 
 app.use(bodyParse.json());
 
@@ -17,8 +22,9 @@ app.use('/graphql', graphqlExpress((req) => {
   return {
     schema,
     context: {
-      data,
-      curses
+      studentStorage: new UserStorage(conn),
+      teacherStorage: new UserStorage(conn),
+      courseStorage: new CourseStorage(conn)
     }
   }
 }));
