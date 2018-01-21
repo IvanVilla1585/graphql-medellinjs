@@ -2,12 +2,12 @@ const merge = require('lodash.merge');
 const {makeExecutableSchema} = require('graphql-tools');
 
 // import schemas and resolvers
-const teacherSchema = require('./teacher/schema');
-const teacherResolver = require('./teacher/resolver');
-const cursesSchema = require('./courses/schema');
-const cursesResolver = require('./courses/resolver');
-const studentSchema = require('./student/schema');
-const studentResolver = require('./student/resolver');
+const teacherSchema = require('./graphql/user/schema');
+const teacherResolver = require('./graphql/user/resolver');
+const cursesSchema = require('./graphql/post/schema');
+const cursesResolver = require('./graphql/post/resolver');
+const studentSchema = require('./graphql/comment/schema');
+const studentResolver = require('./graphql/comment/resolver');
 
 const typeDefs = [
   ...teacherSchema,
