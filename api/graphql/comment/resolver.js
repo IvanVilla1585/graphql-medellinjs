@@ -1,50 +1,37 @@
 const resolver = {
   Query: {
-    async students(root, args, {studentStorage}) {
+    async comments(root, args, {commentStorage}) {
       let results = [];
       try {
-        results = await studentStorage.find({type: 'STUDENT'});
+        results = await commentStorage.find();
       } catch (err) {
         console.log('err', err);
         return results;
       }
       return results;
-    },
-    async studentById(root, args, {studentStorage}) {
+    }
+  },
+  Comment: {
+    async post({postId}, args, {postStorage}) {
       let result = {};
+      if (!postId) return {};
       try {
-        result = await studentStorage.findById(args.id);
+        result = await postStorage.findById(postId);
       } catch (err) {
         return result;
       }
+      console.log('post', result)
       return result;
     }
   },
-  Mutation: {
-    async studentAdd(root, args, {studentStorage}) {
+  Subscription: {
+    async commentAdd(root, args, {commentStorage, pubsub}) {
       let result = {};
       try {
-        result = await studentStorage.save(args.data);
+        result = await commentStorage.save({...args.data});
+        pubsub.publish('commentAdded', result);
       } catch (err) {
         return result;
-      }
-      return result;
-    },
-    async studentEdit(root, args, {studentStorage}) {
-      let result = {};
-      try {
-        result = await studentStorage.update(args.id, args.data);
-      } catch (err) {
-        return result;
-      }
-      return result;
-    },
-    async studentDelete(root, args, {studentStorage}) {
-      let result = {};
-      try {
-        result = await studentStorage.delete(args.id);
-      } catch (err) {
-        return err;
       }
       return result;
     }
