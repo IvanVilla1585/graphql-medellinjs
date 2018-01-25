@@ -5,6 +5,7 @@ configuration graphql with express and nodejs
 
 - [Git](https://git-scm.com/)
 - [nodejs 8.9.4 LTS](https://nodejs.org/es/download/)  
+- [MongoDB](https://docs.mongodb.com/manual/tutorial/)  
 
 ## Let's get started
 
