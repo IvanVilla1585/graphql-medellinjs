@@ -1,53 +1,36 @@
 const schema = [`
-  
-  # data to create student
-  input StudentInput {
+
+  # data to create comment
+  input CommentInput {
+    postId: ID!,
     name: String!,
-    lastName: String!,
-    address: String,
-    birthday: String!,
-    type: TYPE!,
-    status: Boolean,
-    courses: [ID]
+    email: String!,
+    body: String!
   }
-  
-  # data to edit student
-  input StudentEditInput {
+
+  # data to edit comment
+  input CommentEditInput {
+    postId: ID,
     name: String,
-    lastName: String,
-    address: String,
-    birthday: String,
-    type: TYPE,
-    status: Boolean,
-    courses: [ID]
+    email: String,
+    body: String
   }
-  
-  # data student
-  type Student {
+ 
+  type Comment {
     id: ID,
+    postId: ID,
+    post: Post,
     name: String,
-    lastName: String,
-    address: String,
-    birthday: String,
-    type: TYPE,
-    status: Boolean
-    courses: [Course]
+    email: String,
+    body: String
   }
-  
-  type Query {
-    # find all students
-    students: [Student]
-    # find teacher by id
-    studentById(id: ID!): Teacher
+
+  type Query { 
+    comments: [Comment] 
   }
-  type Mutation {
-    # create student
-    studentAdd(data: StudentInput): Student
-    # update student
-    studentEdit(id: ID!, data: StudentEditInput): Teacher
-    # delete student
-    studentDelete(id: ID!): Teacher
-  
+
+  type Subscription {
+    commentAdd(data: CommentInput): Comment
   }
 `];
 
