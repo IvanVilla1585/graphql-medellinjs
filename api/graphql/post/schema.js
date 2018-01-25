@@ -1,46 +1,36 @@
 const schema = [`
   
-  # data to create course
-  input CourseInput {
-    name: String!,
-    description: String,
-    level: Int!,
-    price: Float!,
-    status: Boolean
+  # data to create post
+  input PostInput {
+    userId: ID!, 
+    title: String!, 
+    body: String!
   }
   
-  # data to edit course
-  input CourseEditInput {
-    name: String,
-    description: String,
-    level: Int,
-    price: Float,
-    status: Boolean
+  # data post
+  type Post {
+    id: ID, 
+    userId: ID, 
+    user: User, 
+    title: String, 
+    body: String,
+    comments: [Comment]
   }
   
-  # data course
-  type Course {
-    name: String,
-    description: String,
-    status: Boolean,
-    price: Float,
-    level: Int
-  }
+  union SearchResult = Post | Comment
   
   extend type Query {
-    # find all courses
-    courses: [Course]
-    # find course by id
-    courseById(id: ID!): Course
+    # find all post
+    posts: [Post]
+    # find all post and comments
+    search(search: String!): [SearchResult]
+    # find post by id
+    postById(id: ID!): Post
   }
   
-  extend type Mutation {
-    # create course
-    courseAdd(data: CourseInput): Course
-    # update course
-    courseEdit(id: ID!, data: CourseEditInput): Course
-    # delete course
-    courseDelete(id: ID!): Course
+  type Mutation {
+    # create post
+    postAdd(data: PostInput): Post
   }
 `];
 
