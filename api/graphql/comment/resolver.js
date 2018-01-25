@@ -5,8 +5,7 @@ const resolver = {
       try {
         results = await commentStorage.find();
       } catch (err) {
-        console.log('err', err);
-        return results;
+        throw new Error('Error: find all comment');
       }
       return results;
     }
@@ -18,9 +17,8 @@ const resolver = {
       try {
         result = await postStorage.findById(postId);
       } catch (err) {
-        return result;
+        throw new Error('Error: find post');
       }
-      console.log('post', result)
       return result;
     }
   },
@@ -31,7 +29,7 @@ const resolver = {
         result = await commentStorage.save({...args.data});
         pubsub.publish('commentAdded', result);
       } catch (err) {
-        return result;
+        throw new Error('Error: save comment');
       }
       return result;
     }

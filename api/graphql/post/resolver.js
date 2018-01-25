@@ -5,8 +5,7 @@ const resolver = {
       try {
         results = await postStorage.find();
       } catch (err) {
-        console.log('err', err);
-        return results;
+        throw new Error('Error: find all posts');
       }
       return results;
     },
@@ -17,8 +16,7 @@ const resolver = {
         const resultsComments = await commentStorage.find({body: {$regex: new RegExp(args.search, 'i')}});
         results = [...resultsPost, ...resultsComments]
       } catch (err) {
-        console.log('err', err);
-        return results;
+        throw new Error('Error: search comments and posts');
       }
       return results;
     },
@@ -27,7 +25,7 @@ const resolver = {
       try {
         result = await postStorage.findById(args.id);
       } catch (err) {
-        return result;
+        throw new Error('Error: find post by id');
       }
       return result;
     }
@@ -38,7 +36,7 @@ const resolver = {
       try {
         result = await userStorage.findById(userId);
       } catch (err) {
-        return result;
+        throw new Error('Error: find user');
       }
       return result;
     },
@@ -47,7 +45,7 @@ const resolver = {
       try {
         result = await commentStorage.find({postId: id});
       } catch (err) {
-        return result;
+        throw new Error('Error: find comments');
       }
       return result;
     }
@@ -58,7 +56,7 @@ const resolver = {
       try {
         result = await postStorage.save({...args.data});
       } catch (err) {
-        return result;
+        throw new Error('Error: save post');
       }
       return result;
     }

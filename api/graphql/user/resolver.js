@@ -1,50 +1,40 @@
 const resolver = {
   Query: {
-    async teachers(root, args, {teacherStorage}) {
+    async users(root, args, {userStorage}) {
       let results = [];
       try {
-        results = await teacherStorage.find({});
+        results = await userStorage.find();
       } catch (err) {
-        console.log('err', err);
-        return results;
+        throw new Error('Error: find all posts');
       }
       return results;
     },
-    async teacherById(root, args, {teacherStorage}) {
+    async userById(root, args, {userStorage}) {
       let result = {};
       try {
-        result = await teacherStorage.findById(args.id);
+        result = await userStorage.findById(args.id);
       } catch (err) {
-        return result;
+        throw new Error('Error: find user by id');
       }
       return result;
     }
   },
   Mutation: {
-    async teacherAdd(root, args, {teacherStorage}) {
+    async userAdd(root, args, {userStorage}) {
       let result = {};
       try {
-        result = await teacherStorage.save(args.data);
+        result = await userStorage.save(args.data);
       } catch (err) {
-        return result;
+        throw new Error('Error: save user');
       }
       return result;
     },
-    async teacherEdit(root, args, {teacherStorage}) {
+    async userDelete(root, args, {userStorage}) {
       let result = {};
       try {
-        result = await teacherStorage.update(args.id, args.data);
+        result = await userStorage.delete(args.id);
       } catch (err) {
-        return result;
-      }
-      return result;
-    },
-    async teacherDelete(root, args, {teacherStorage}) {
-      let result = {};
-      try {
-        result = await teacherStorage.delete(args.id);
-      } catch (err) {
-        return result;
+        throw new Error('Error: delete user');
       }
       return result;
     }
