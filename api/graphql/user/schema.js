@@ -1,60 +1,60 @@
 const schema = [`
-  enum TYPE {
-    TEACHER,
-    STUDENT
+
+  enum STATUS {
+    ACTIVE,
+    INACTIVE
   }
   
-  # data to create teacher
-  input TeacherInput {
+  # data to create user
+  input UserInput {
     name: String!,
-    lastName: String!,
-    address: String,
-    document: String!,
-    documentType: String!,
-    type: TYPE!,
-    status: Boolean,
-    courses: [ID]
+    username: String!,
+    email: String!,
+    address: AddressInput,
+    phone: String,
+    website: String,
   }
   
-  # data to edit teacher
-  input TeacherEditInput {
-    name: String,
-    lastName: String,
-    address: String,
-    document: String,
-    documentType: String,
-    type: TYPE,
-    status: Boolean,
-    courses: [ID]
+  # data to create address
+  input AddressInput {
+    street: String,
+    suite: String,
+    city: String,
+    zipcode: String
   }
   
-  # data teacher
-  type Teacher {
-    _id: ID,
+  # data address
+  type Address {
+    street: String,
+    suite: String,
+    city: String,
+    zipcode: String,
+  }
+  
+  # data user
+  type User {
+    id: ID,
     name: String,
-    lastName: String,
-    address: String,
-    document: String,
-    documentType: String,
-    type: TYPE,
-    status: Boolean,
-    courses: [Course]
+    username: String,
+    email: String,
+    address: Address,
+    phone: String,
+    website: String,
+    status: STATUS
   }
   
   extend type Query {
-    # find all teachers
-    teachers: [Teacher]
-    # find teacher by id
-    teacherById(id: ID!): Teacher
+    # find all users
+    users: [User]
+    # find user by id
+    userById(id: ID!): User
   }
   
   extend type Mutation {
     # create teacher
-    teacherAdd(data: TeacherInput): Teacher
-    # update teacher
-    teacherEdit(id: ID!, data: TeacherEditInput): Teacher
+    userAdd(data: UserInput): User
     # delete teacher
-    teacherDelete(id: ID!): Teacher
+    userDelete(id: ID!): User
   }
 `];
 
