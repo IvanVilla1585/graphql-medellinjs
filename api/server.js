@@ -1,20 +1,30 @@
 'use strict'
 
 const express = require('express');
+const Promise = require('bluebird');
+const cors = require('cors');
 const bodyParse = require('body-parser');
 const mongoose = require('mongoose');
-const Promise = require('bluebird');
 const {graphqlExpress, graphiqlExpress} = require('apollo-server-express');
+const { execute, subscribe } = require('graphql');
+const { SubscriptionServer } = require('subscriptions-transport-ws');
+const { createServer } = require('http');
 
-const schema = require('./schema');
-const {CourseStorage} = require('./storage/course');
-const {UserStorage} = require('./storage/user');
+const config = require('./config');
+const schema = require('./graphql/schema');
+const UserStorage = require('./graphql/user/storage');
+const PostStorage = require('./graphql/post/storage');
+const CommentStorage = require('./graphql/comment/storage');
+const {pubsub} = require('./subscriptions');
+
+mongoose.Promise = Promise;
 
 const app = express();
 const port = 8000;
-mongoose.Promise = Promise;
-const conn = mongoose.createConnection('mongodb://localhost:27017/medellinjs');
 
+const conn = mongoose.createConnection(config.db);
+
+app.use(cors());
 app.use(bodyParse.json());
 
 // bodyParser is needed just for POST.
@@ -22,12 +32,35 @@ app.use('/graphql', graphqlExpress((req) => {
   return {
     schema,
     context: {
-      studentStorage: new UserStorage(conn),
-      teacherStorage: new UserStorage(conn),
-      courseStorage: new CourseStorage(conn)
+      userStorage: new UserStorage(conn),
+      postStorage: new PostStorage(conn),
+      commentStorage: new CommentStorage(conn),
+      pubsub
     }
   }
 }));
-app.get('/graphiql', graphiqlExpress({ endpointURL: '/graphql' })); // if you want GraphiQL enabled
 
-app.listen(port, () => console.log(`server running in the port ${port}`));
+app.get('/graphiql', graphiqlExpress({
+  endpointURL: '/graphql'
+
+}));
+
+const server = createServer(app);
+
+/**
+ * RUN SERVER
+ */
+app.listen(port, () => {
+  /**
+   * RUN SERVER SUBSCRIPTION
+   */
+  // new SubscriptionServer({ // eslint-disable-line no-new
+  //   schema,
+  //   execute,
+  //   subscribe,
+  // }, {
+  //   path: '/subscriptions',
+  //   server,
+  // });
+  console.log(`server running in the port ${port}`)
+});
